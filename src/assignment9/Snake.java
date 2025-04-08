@@ -2,6 +2,8 @@ package assignment9;
 
 import java.util.LinkedList;
 
+import edu.princeton.cs.introcs.StdDraw;
+
 public class Snake {
 
 	private static final double SEGMENT_SIZE = 0.02;
@@ -11,22 +13,24 @@ public class Snake {
 	private double deltaY;
 	
 	public Snake() {
-		//FIXME - set up the segments instance variable
 		deltaX = 0;
 		deltaY = 0;
+		segments = new LinkedList<BodySegment>();
+		BodySegment bs = new BodySegment(0.2, 0.5, SEGMENT_SIZE);
+		segments.add(bs);
 	}
 	
 	public void changeDirection(int direction) {
-		if(direction == 1) { //up
+		if(direction == 1 && deltaY != -MOVEMENT_SIZE) { //up
 			deltaY = MOVEMENT_SIZE;
 			deltaX = 0;
-		} else if (direction == 2) { //down
+		} else if (direction == 2 && deltaY != MOVEMENT_SIZE) { //down
 			deltaY = -MOVEMENT_SIZE;
 			deltaX = 0;
-		} else if (direction == 3) { //left
+		} else if (direction == 3 && deltaX != MOVEMENT_SIZE) { //left
 			deltaY = 0;
 			deltaX = -MOVEMENT_SIZE;
-		} else if (direction == 4) { //right
+		} else if (direction == 4 && deltaX != -MOVEMENT_SIZE) { //right
 			deltaY = 0;
 			deltaX = MOVEMENT_SIZE;
 		}
@@ -37,14 +41,24 @@ public class Snake {
 	 * based on the current direction of travel
 	 */
 	public void move() {
-		//FIXME
+		for(int i = segments.size() - 1; i > 0; i--) {
+			BodySegment current = segments.get(i);
+			BodySegment previous = segments.get(i - 1);
+			current.setX(previous.getX());
+			current.setY(previous.getY());
+		}
+		BodySegment head = segments.get(0);
+		head.setX(head.getX() + deltaX);
+		head.setY(head.getY() + deltaY);
 	}
 	
 	/**
 	 * Draws the snake by drawing each segment
 	 */
 	public void draw() {
-		//FIXME
+		for(BodySegment bs : segments) {
+			bs.draw();
+		}
 	}
 	
 	/**
@@ -53,7 +67,15 @@ public class Snake {
 	 * @return true if the snake successfully ate the food
 	 */
 	public boolean eatFood(Food f) {
-		//FIXME
+		BodySegment head = segments.get(0);
+		double distance = Math.sqrt(Math.pow(f.getX() - head.getX(), 2) + Math.pow(f.getY() - head.getY(), 2));
+		if(distance <= SEGMENT_SIZE) {
+			BodySegment tail = segments.get(segments.size() - 1);
+			BodySegment newSegment = new BodySegment(tail.getX() - deltaX, tail.getY() - deltaY, SEGMENT_SIZE);
+			segments.add(newSegment);
+			f = null;
+			return true;
+		}
 		return false;
 	}
 	
