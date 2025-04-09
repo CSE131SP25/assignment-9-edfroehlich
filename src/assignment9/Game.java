@@ -1,5 +1,6 @@
 package assignment9;
 
+import java.awt.Color;
 import java.awt.event.KeyEvent;
 
 import edu.princeton.cs.introcs.StdDraw;
@@ -17,7 +18,7 @@ public class Game {
 	}
 	
 	public void play() {
-		while (true) { //TODO: Update this condition to check if snake is in bounds
+		while (snake.isInbounds()) { 
 			int dir = getKeypress();
 			/*
 			 * 1. Pass direction to your snake
@@ -29,7 +30,6 @@ public class Game {
 			snake.changeDirection(dir);
 			snake.move();
 			if(snake.eatFood(food)) {
-				snake.eatFood(food);
 				food = new Food();
 			}
 			updateDrawing();
@@ -64,6 +64,8 @@ public class Game {
 		StdDraw.clear();
 		snake.draw();
 		food.draw();
+		StdDraw.setPenColor(Color.BLACK);
+		StdDraw.text(0.5, 0.05, "Score: " + (snake.getLength() - 1));
 		StdDraw.pause(50);
 		StdDraw.show();
 	}

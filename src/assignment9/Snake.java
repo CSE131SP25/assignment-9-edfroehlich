@@ -7,7 +7,7 @@ import edu.princeton.cs.introcs.StdDraw;
 public class Snake {
 
 	private static final double SEGMENT_SIZE = 0.02;
-	private static final double MOVEMENT_SIZE = SEGMENT_SIZE * 1.5;
+	private static final double MOVEMENT_SIZE = SEGMENT_SIZE * 1.3;
 	private LinkedList<BodySegment> segments;
 	private double deltaX;
 	private double deltaY;
@@ -70,10 +70,10 @@ public class Snake {
 		BodySegment head = segments.get(0);
 		double distance = Math.sqrt(Math.pow(f.getX() - head.getX(), 2) + Math.pow(f.getY() - head.getY(), 2));
 		if(distance <= SEGMENT_SIZE) {
+			f = new Food();
 			BodySegment tail = segments.get(segments.size() - 1);
 			BodySegment newSegment = new BodySegment(tail.getX() - deltaX, tail.getY() - deltaY, SEGMENT_SIZE);
 			segments.add(newSegment);
-			f = null;
 			return true;
 		}
 		return false;
@@ -84,7 +84,22 @@ public class Snake {
 	 * @return whether or not the head is in the bounds of the window
 	 */
 	public boolean isInbounds() {
-		//FIXME
+		BodySegment head = segments.get(0);
+		double x = head.getX();
+		double y = head.getY();
+		if(x < 0 || x > 1 || y < 0 || y > 1) {
+			return false;
+		}
+		for(int i = 2; i < segments.size(); i++) {
+			double distance = Math.sqrt(Math.pow(head.getX() - segments.get(i).getX(), 2) + Math.pow(head.getY() - segments.get(i).getY(), 2));
+			if(distance <= SEGMENT_SIZE) {
+				return false;
+			}
+		}
 		return true;
+	}
+	
+	public int getLength() {
+		return segments.size();
 	}
 }

@@ -11,7 +11,7 @@ public class BodySegment {
 	
 	public BodySegment(double x, double y, double size) {
 		//See ColorUtils for some color options (or choose your own)
-		color = ColorUtils.transparentColor();
+		color = new Color(0, 0, 255, 64);
 		this.x = x;
 		this.y = y;
 		this.size = size;
