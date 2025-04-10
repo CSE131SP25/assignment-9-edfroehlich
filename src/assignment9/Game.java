@@ -34,6 +34,7 @@ public class Game {
 			}
 			updateDrawing();
 		}
+
 	}
 	
 	private int getKeypress() {

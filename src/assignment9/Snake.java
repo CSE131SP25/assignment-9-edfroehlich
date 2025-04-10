@@ -1,5 +1,6 @@
 package assignment9;
 
+import java.awt.Color;
 import java.util.LinkedList;
 
 import edu.princeton.cs.introcs.StdDraw;
@@ -88,11 +89,17 @@ public class Snake {
 		double x = head.getX();
 		double y = head.getY();
 		if(x < 0 || x > 1 || y < 0 || y > 1) {
+			StdDraw.setPenColor(Color.RED);
+			StdDraw.text(0.5, 0.5, "Game Over");
+			StdDraw.show();
 			return false;
 		}
 		for(int i = 2; i < segments.size(); i++) {
 			double distance = Math.sqrt(Math.pow(head.getX() - segments.get(i).getX(), 2) + Math.pow(head.getY() - segments.get(i).getY(), 2));
 			if(distance <= SEGMENT_SIZE) {
+				StdDraw.setPenColor(Color.RED);
+				StdDraw.text(0.5, 0.5, "Game Over");
+				StdDraw.show();
 				return false;
 			}
 		}
