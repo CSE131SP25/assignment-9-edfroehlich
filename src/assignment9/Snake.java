@@ -71,7 +71,6 @@ public class Snake {
 		BodySegment head = segments.get(0);
 		double distance = Math.sqrt(Math.pow(f.getX() - head.getX(), 2) + Math.pow(f.getY() - head.getY(), 2));
 		if(distance <= SEGMENT_SIZE) {
-			f = new Food();
 			BodySegment tail = segments.get(segments.size() - 1);
 			BodySegment newSegment = new BodySegment(tail.getX() - deltaX, tail.getY() - deltaY, SEGMENT_SIZE);
 			segments.add(newSegment);
@@ -95,7 +94,7 @@ public class Snake {
 			return false;
 		}
 		for(int i = 2; i < segments.size(); i++) {
-			double distance = Math.sqrt(Math.pow(head.getX() - segments.get(i).getX(), 2) + Math.pow(head.getY() - segments.get(i).getY(), 2));
+			double distance = Math.sqrt(Math.pow(x - segments.get(i).getX(), 2) + Math.pow(y - segments.get(i).getY(), 2));
 			if(distance <= SEGMENT_SIZE) {
 				StdDraw.setPenColor(Color.RED);
 				StdDraw.text(0.5, 0.5, "Game Over");
